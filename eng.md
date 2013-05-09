@@ -4,9 +4,9 @@ This article is packed with a number of quirks and issues you should be aware of
 
 Whereas Alex wrote about achieving particular effects, I’m going to talk about the technical background, especially the JavaScript-facing side. Pitfalls — **this article is all about pitfalls**. Here is the table of contents if you would like to skip to a specific section:
 
-01. [Specifying A Transition](#Specifying-Transition)
+01. [Specifying A Transition](#1-specifying-a-transition)
 
-02. [When A Transition Is Complete](#When-Transition-Is-Complete)
+02. [When A Transition Is Complete](#2-when-a-transition-is-complete)
 
 03. [Transitionable Properties](#Transitionable-Properties)
 
