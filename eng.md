@@ -48,7 +48,7 @@ Without further ado, **let’s dive into the specifications and implementations*
 
 … But assumptions are often wrong. I discovered the information in this article by creating a [CSS3 Transitions Test Suite][5].
 
-<a id="Specifying-Transition"></a>
+<a id="1-specifying-a-transition"></a>
 ## 1. Specifying A Transition
 
 Besides the shorthand `transition` [property][6], the CSS3 transition specification defines the following four CSS properties for specifying an animated change of state:
