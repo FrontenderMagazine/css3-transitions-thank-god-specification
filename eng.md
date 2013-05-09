@@ -93,7 +93,7 @@ The computed value of `linear` is usually represented as `cubic-bezier(0, 0, 1, 
 The specification stipulates that the `x` values must be between `0` and `1`, while the `y` values may exceed that range. Contrary to the specification, WebKit allows `x` to exceed the bounds, at least computationally. At the time of writing, the Android browser (version 4.0) mixes up ranges for `x` and `y`, essentially disallowing “bounce” effects.
 
 <a id="When-Transition-Is-Complete"></a>
-2. When A Transition Is Complete
+## 2. When A Transition Is Complete
 
 I already mentioned that CSS transitions run asynchronously. The specification provides the `TransitionEnd` event to allow JavaScript to synchronize with the end of a transition. Sadly, the specification isn’t very specific about this event. In fact, it simply states that an event is to be fired for every property that has undergone a transition. If you need a single word to describe the situation, “nightmare” isn’t far off.
 
@@ -148,7 +148,7 @@ WebKit and IE have implemented an [unspecified extension to][14] `background-pos
 So, even if you *knew* that a transition was taking place, you wouldn’t be able to rely on the `TransitionEnd.propertyName` that you’re given. While you *could* write loads of JavaScript to equalize the behavior, you wouldn’t be able to do this in a future-proof way without doing proper feature detection for every single property. And this could include properties you might not even know are animatable.
 
 <a id="Transitionable-Properties"></a>
-3. Transitionable Properties
+## 3. Transitionable Properties
 
 The specification [lists a number of CSS properties][15] that a browser is supposed to support animated transition for. This list contains properties of CSS2.1. Any of the newer properties will be marked as animatable in their respective specifications — as `order` [of the Flexible Box Layout][16] shows.
 
@@ -159,7 +159,7 @@ Ignoring the (inherently unreliable) `TransitionEnd` events, a property is trans
 Instead of bloating this article with a full compatibility table, I’ve sent my results to Oli Studholme ([@boblet][17]), who has updated his list of “[CSS Animatable Properties][18]” accordingly.
 
 <a id="Priority-Of-Transition-Properties"></a>
-4. Priority Of Transition Properties
+## 4. Priority Of Transition Properties
 
 The specification on the `transition-property` [property][19] states that we’re allowed to define a property multiple times:
 
@@ -172,7 +172,7 @@ In Firefox and IE, this works fine. Opera mixes up the priority order, though. I
 The real problem is WebKit. It’s somehow managed to execute a transition multiple times if a property is specified multiple times. To really freak out WebKit, try running a transition for `transition-property: padding, padding-left` with the very small `transition-duration: 0.1s` (warning: this is not a good idea for epileptics). WebKit will *render* the transition at least twice. But the real beauty is the `TransitionEnd` events, of which you could receive up to *hundreds* for a single transition.
 
 <a id="Transitioning-From-And-To-auto"></a>
-5. Transitioning From And To `auto`
+## 5. Transitioning From And To `auto`
 
 The CSS property value `auto` translates to “Dear browser, please calculate some reasonable value for this.” Paragraphs (`<p>`) and any block-level elements will be as wide as their parent if they have `width: auto`. There are times when you’ll change from `width: auto` to a specific width — and want to transition that change. The specification neither enforces nor denies the use of `auto` values for transitionable properties.
 
@@ -183,7 +183,7 @@ For the other properties, such as `width` and `height`, WebKit’s behavior is n
 For a full compatibility table, have a look at “[CSS Animatable Properties][20].”
 
 <a id="Implicit-Transitions"></a>
-6. Implicit Transitions
+## 6. Implicit Transitions
 
 An “implicit transition” happens when a change to one property causes another property to be transitioned — or if you change a property on a parent element and cause a child to transition either the inherited property or a dependent property. Confused? Consider `font-size: 18px; padding: 2em;` — the padding is calculated as `2 × font-size`, because that’s what em does, giving us 36 pixels.
 
@@ -196,7 +196,7 @@ In Firefox, these implicit transitions get particularly interesting when both th
 Don’t forget about inheritance within the cascade. A `font-size` on a DOM element will be inherited by its children, as long as it’s not overwritten, potentially causing implicit transitions.
 
 <a id="Transitions-And-Pseudo-Elements"></a>
-7. Transitions And Pseudo-Elements
+## 7. Transitions And Pseudo-Elements
 
 Pseudo-elements (`:before` and `:after`) were introduced with [CSS2 generated content][21]. Read “[Learning to Use the :before and :after Pseudo-Elements in CSS][22]” if you’re not yet familiar with generated content. While [CSS3 content][23] defines additional pseudo-elements (`::alternate`, `::outside`), they are not (yet) supported. All animatable CSS properties should also be animatable for pseudo-elements.
 
@@ -223,24 +223,24 @@ IE 10 will not run a transition for a pseudo-element’s `:hover` state if the o
 The weird thing about this issue isn’t that you need a (possibly empty) `:hover` state on the owner element. It’s that if you don’t have one, IE 10 will interpret the `:hover` as `:active` (i.e. active when you mousedown on the element). The even weirder part is that the `:active` state persists even after `mouseup` and is removed only by another click on the document.
 
 <a id="Background-Tabs"></a>
-8. Background Tabs
+## 8. Background Tabs
 
 At the time of writing, IE 10 is the only browser that responds to a tab being in the background or foreground. While it will finish a running transition if the tab is pushed to the background, it won’t start any new transitions there. IE 10 will wait until the tab is pulled into the foreground before starting any new transitions. Fortunately, IE 10 already supports the [Page Visibility API][27], allowing developers to respond to this behavior.
 
 We can expect similar things to happen with other browsers as they continue putting background tabs to sleep.
 
 <a id="Invisible-Elements"></a>
-9. “Invisible” Elements
+## 9. “Invisible” Elements
 
 So, are transitions executed for DOM elements that are not attached to the DOM? Nope, not a single browser does that — why should they? Well, then, what about hidden elements? Most browsers have figured out that there’s no need to run a transition on an invisible (i.e. not painted) element. Opera thinks differently about this — it’ll run a transition regardless of whether it is painted or not.
 
 <a id="Transitioning-Before-The-DOM-Is-Ready"></a>
-10. Transitioning Before The DOM Is Ready?
+## 10. Transitioning Before The DOM Is Ready?
 
 The `DOMContentLoaded` event is triggered when the document leaves parsing mode. If you’re into jQuery, we’re talking about `jQuery.ready()` right now. Transitions can be run *before* this event happens.
 
 <a id="Rendering-Quirks"></a>
-11. Rendering Quirks
+## 11. Rendering Quirks
 
 The issues I’ve described up to this point were found by testing against the specification. The tests were run automatically. But as it turns out, quite a few more problems are visible to the eye. The following quirks have been found by various other developers and could affect your meddling with transitions just as much.
 
@@ -255,7 +255,7 @@ Transitioning multiple properties is not synchronized in Firefox and Webkit. You
 Firefox won’t animate an element’s properties if one of its parent’s `position` is changed, [as you can see][34]. Webkit, Opera and IE 10 behave correctly.
 
 <a id="Recommendations-For-The-Specification"></a>
-12. Recommendations For The Specification
+## 12. Recommendations For The Specification
 
 Having read the specification from top to bottom and actually tested all of the features, I think a few changes would help:
 
